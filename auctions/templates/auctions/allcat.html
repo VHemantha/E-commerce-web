@@ -1,0 +1,14 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% for row in allcat %}
+<div>
+    <a href="categories/{{row.category_name}}">
+        <ul>
+            <li>
+                <h3>{{ row.category_name }}</h3>
+            </li>
+        </ul>
+    </a>
+</div>{% endfor %}
+{% endblock %}

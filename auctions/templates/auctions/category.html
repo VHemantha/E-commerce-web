@@ -1,0 +1,25 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% for row in list %}
+{% if row.status == 'active' %}
+<div class="column">
+<a href="{{ row.id }}">   
+    <div class="polaroid_i">
+        {% if row.image %}
+        <img src=media/{{ row.image }} alt="image">
+        {% endif %}
+
+    <div class="container_i">   
+        <h3>{{ row.title }}</h3>
+        <p>{{ row.description }}</p>
+        <p>{{ row.category }}</p>
+        <h5>Bid :{{ row.bid }}</h5>
+    </div>
+</div>
+</a>
+</div>
+<br>
+{% endif %}
+{% endfor %}
+{% endblock %}  

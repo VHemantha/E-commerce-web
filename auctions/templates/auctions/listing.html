@@ -1,0 +1,75 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% for listing in listing%}
+    <div class="container">
+        <h2>NAME : {{ listing.title }}</h2>
+        <p>ITEM DESCRIPTION : {{ listing.description }}</p>
+        <p> CATEGORY : {{ listing.category }}</p>
+        <h5>CURRENT BID : {{ listing.bid }}</h5>
+    </div>
+    <div>
+        <div class="polaroid">
+            {% if listing.image %}
+            <img src=media/{{ listing.image }} alt="image">
+            {% endif %}
+        </div>
+    </div>
+    {% if listing.status == 'active' %}
+    <div class="container">   
+        <form action="{{ listing.id }}" method="post">
+            {% csrf_token %}
+            <label for="bid">Place your bid here : </label>
+            <input type="text" name="bid" id="bid"></input>
+            <input type="submit" value="Submit" class="btn btn-primary btn-sm">
+        </form>
+        <form action="{% url 'watchlist' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" value="{{ listing.id }}" name="id">
+            {% if listing.msg == "msg" %}
+            <input type="submit" name="remove" value="Remove from watchlist" class="btn btn-outline-danger">
+            {% else %}
+            <input type="submit" name="add" value="Add to Watch List" class="btn btn-success">
+            {% endif %}
+        </form>
+    </div>
+    <div>
+        {% if listing.user_id == request.user.id %}
+        <form action="{{ listing.id }}" method="post">
+        {% csrf_token %}
+        <input type="submit" name="close" value="Close Listing" class="btn btn-primary" id="cmtbtn">
+        </form>
+        {% endif %}
+    </div>
+    <br>
+    <br>
+    {% endif %}
+    {% if listing.status == 'closed' %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <h4 class="closedmsg">This bid is closed</h4>
+    {% if listing.user_id == request.user.id or listing.username == request.user.username and listing.status == 'closed' %}
+    <h5 class="closedmsg">Winner : {{ listing.username }}</h5>
+    {% endif %} 
+    {% endif %}
+    <div>
+        <form action="{{ listing.id }}" method="post">
+            {% csrf_token %}
+            <input type="text" name="comment" class="comment_input">
+            <div>
+                <input type="submit" id="cmtbtn" name="cmt" value="Add Comment" class="btn btn-dark">
+            </div>           
+        </form>       
+    </div> 
+
+{% endfor %}
+   
+{% for row in cmt %}
+    <div>
+        <p class="cmt">user : {{ row.comment }}</p>
+    </div>
+    <br>
+{% endfor%}
+{% endblock %} 

@@ -1,0 +1,20 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+{% for row in List %}
+{% if row.msg == 'msg' %}
+<a href="{{ row.id }}" class="nav nav-tabs">
+    <div class="paranoid_i">
+        <img src=media/{{ row.image }} alt="image">
+    </div>
+    <div class="container_i">
+        <h2>Title: {{ row.title }}</h2>
+        <p>Description: {{ row.description }}</p>
+        <p>Category :{{ row.category }}</p>
+        <h5>Current Bid: {{ row.bid }}</h5>
+    </div>
+</a>
+<br>
+{% endif %}
+{% endfor %}
+{% endblock %}  
